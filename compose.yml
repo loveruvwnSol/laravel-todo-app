@@ -1,0 +1,41 @@
+services:
+  nginx:
+    container_name: todo-nginx
+    build:
+      context: ./docker
+      dockerfile: ./nginx.Dockerfile
+    ports:
+      - 8080:80
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ./docker
+      dockerfile: ./app.Dockerfile
+    tty: true
+    container_name: todo-app
+    volumes:
+      - ./app:/var/www/html
+    environment:
+      TZ: Asia/Tokyo
+    depends_on:
+      - mysql
+
+  mysql:
+    build:
+      context: ./docker
+      dockerfile: ./database.Dockerfile
+    container_name: todo-database
+    volumes:
+      - ./database/mysql/mysql.conf:/etc/mysql/mysql.conf
+      - ./database/mysql/lib:/var/lib/mysql
+      - ./database/mysql/logs:/var/log/database
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: root
+      TZ: "Asia/Tokyo"
+      LC_ALL: "C.UTF-8"
+    platform: linux/amd64
