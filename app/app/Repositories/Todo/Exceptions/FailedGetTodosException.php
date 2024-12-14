@@ -14,7 +14,7 @@ class FailedGetTodosException extends RuntimeException implements HttpExceptionI
 
     public function getResponseJSON(): array 
     {
-        return ["message" => "タスクを取得できませんでした。"];
+        return ["message" => "Failed to get some tasks."];
     }
 
 }
