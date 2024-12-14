@@ -20,4 +20,6 @@ Route::get('/', function () {
 
 Route::prefix("/todos")->group(function() {
     Route::get("/", [TodoController::class, "getTodos"]);
+    Route::post("/",[TodoController::class, "createNewTodo"]);
+    Route::delete("/{id}", [TodoController::class, "deleteTodo"]);
 });
